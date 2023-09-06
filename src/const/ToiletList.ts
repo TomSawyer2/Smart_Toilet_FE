@@ -52,7 +52,7 @@ export const ToiletInfoList = [
   {
     id: 2,
     name: '东九A-1楼-西',
-    temperture: 36.5,
+    temperture: 16.5,
     humidity: 50,
     air_status: 11.89,
     update_time: '2020-12-12 12:12:12',
@@ -102,7 +102,7 @@ export const ToiletInfoList = [
   {
     id: 3,
     name: '东九A-2楼-东',
-    temperture: 36.5,
+    temperture: 6.5,
     humidity: 50,
     air_status: 11.89,
     update_time: '2020-12-12 12:12:12',

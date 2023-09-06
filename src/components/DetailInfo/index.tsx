@@ -5,6 +5,9 @@ import { ToiletContext } from '@/pages/layout';
 import { FormOutlined } from '@ant-design/icons';
 import { RoomInfo, ToiletInfo } from '@/typings';
 import { Input, Modal, Radio, RadioChangeEvent, Space } from 'antd';
+import LineChart from '../LineChart';
+import { SmellData } from '@/const/SmellData';
+import { OccupiedData } from '@/const/OccupiedData';
 
 interface ModalContentProps {
   toiletInfo: ToiletInfo;
@@ -59,6 +62,16 @@ const ModalContent = (props: ModalContentProps) => {
   );
 };
 
+const calcTempText = (temp: number) => {
+  if (temp < 10) {
+    return <span className={styles.cold}>{temp}℃</span>;
+  } else if (temp > 30) {
+    return <span className={styles.hot}>{temp}℃</span>;
+  } else {
+    return <span className={styles.normal}>{temp}℃</span>;
+  }
+};
+
 const DetailInfo = () => {
   const { toiletInfo } = useContext(ToiletContext);
   const [feedbackValue, setFeedbackValue] = useState<number>(1);
@@ -77,7 +90,7 @@ const DetailInfo = () => {
       <div className={styles.header}>
         <div className={styles.info}>
           <span>{toiletInfo.name}</span>
-          <span style={{ marginLeft: 20 }}>温度：{toiletInfo.temperture}℃</span>
+          <span style={{ marginLeft: 20 }}>温度：{calcTempText(toiletInfo.temperture)}</span>
           <span style={{ marginLeft: 20 }}>湿度：{toiletInfo.humidity}%</span>
         </div>
       </div>
@@ -103,9 +116,23 @@ const DetailInfo = () => {
         <div className={styles.bodyRight}>
           <div className={styles.chartItem}>
             <span>异味浓度曲线图</span>
+            <div className={styles.chart}>
+              <LineChart
+                data={SmellData}
+                name="异味浓度"
+                color="#ff6666"
+              />
+            </div>
           </div>
           <div className={styles.chartItem}>
             <span>坑位占用率曲线图</span>
+            <div className={styles.chart}>
+              <LineChart
+                data={OccupiedData}
+                name="坑位占用率"
+                color="#54c629"
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -113,6 +140,7 @@ const DetailInfo = () => {
         title="反馈"
         open={isModalOpen}
         onOk={handleFeedback}
+        centered
         onCancel={() => {
           setIsModalOpen(false);
           setSelectedRoom({} as RoomInfo);

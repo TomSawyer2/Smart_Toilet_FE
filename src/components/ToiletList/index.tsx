@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 
 import styles from './index.less';
-import { Select, Input } from 'antd';
-const { Search } = Input;
+import { Select } from 'antd';
+// const { Search } = Input;
 import { ToiletInfoList } from '@/const/ToiletList';
 import ListItem from './components/ListItem';
 import { CollapsedContext, ToiletContext } from '@/pages/layout';
@@ -19,9 +19,9 @@ const ToiletList = () => {
     console.log(e);
   };
 
-  const onSearch = (e: string) => {
-    console.log(e);
-  };
+  // const onSearch = (e: string) => {
+  //   console.log(e);
+  // };
 
   const handleSelectToilet = (item: ToiletInfo) => {
     setToiletInfo(item);
@@ -43,12 +43,12 @@ const ToiletList = () => {
                 return { value: item, label: item };
               })}
             />
-            <Search
+            {/* <Search
               placeholder="公厕名称"
               allowClear
               onSearch={onSearch}
               style={{ width: 100 }}
-            />
+            /> */}
             <div
               className={styles.iconBox}
               onClick={() => setCollapsed(!collapsed)}
