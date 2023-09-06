@@ -9,7 +9,7 @@ export const ToiletInfoList = [
     rooms: [
       {
         id: 1,
-        room_id: 0,
+        room_id: 1,
         toilet_id: 1,
         occupied: 0,
         status: 0,
@@ -17,7 +17,7 @@ export const ToiletInfoList = [
       },
       {
         id: 2,
-        room_id: 1,
+        room_id: 2,
         toilet_id: 1,
         occupied: 1,
         status: 0,
@@ -25,7 +25,7 @@ export const ToiletInfoList = [
       },
       {
         id: 3,
-        room_id: 2,
+        room_id: 3,
         toilet_id: 1,
         occupied: 0,
         status: 0,
@@ -33,7 +33,7 @@ export const ToiletInfoList = [
       },
       {
         id: 4,
-        room_id: 3,
+        room_id: 4,
         toilet_id: 1,
         occupied: 1,
         status: 0,
@@ -41,7 +41,7 @@ export const ToiletInfoList = [
       },
       {
         id: 5,
-        room_id: 4,
+        room_id: 5,
         toilet_id: 1,
         occupied: 0,
         status: 0,
@@ -59,7 +59,7 @@ export const ToiletInfoList = [
     rooms: [
       {
         id: 1,
-        room_id: 0,
+        room_id: 1,
         toilet_id: 1,
         occupied: 0,
         status: 0,
@@ -67,7 +67,7 @@ export const ToiletInfoList = [
       },
       {
         id: 2,
-        room_id: 1,
+        room_id: 2,
         toilet_id: 1,
         occupied: 1,
         status: 0,
@@ -75,7 +75,7 @@ export const ToiletInfoList = [
       },
       {
         id: 3,
-        room_id: 2,
+        room_id: 3,
         toilet_id: 1,
         occupied: 0,
         status: 0,
@@ -83,7 +83,7 @@ export const ToiletInfoList = [
       },
       {
         id: 4,
-        room_id: 3,
+        room_id: 4,
         toilet_id: 1,
         occupied: 1,
         status: 0,
@@ -91,7 +91,7 @@ export const ToiletInfoList = [
       },
       {
         id: 5,
-        room_id: 4,
+        room_id: 5,
         toilet_id: 1,
         occupied: 0,
         status: 0,
@@ -109,14 +109,6 @@ export const ToiletInfoList = [
     rooms: [
       {
         id: 1,
-        room_id: 0,
-        toilet_id: 1,
-        occupied: 1,
-        status: 0,
-        update_time: '2020-12-12 12:12:12',
-      },
-      {
-        id: 2,
         room_id: 1,
         toilet_id: 1,
         occupied: 1,
@@ -124,8 +116,16 @@ export const ToiletInfoList = [
         update_time: '2020-12-12 12:12:12',
       },
       {
-        id: 3,
+        id: 2,
         room_id: 2,
+        toilet_id: 1,
+        occupied: 1,
+        status: 0,
+        update_time: '2020-12-12 12:12:12',
+      },
+      {
+        id: 3,
+        room_id: 3,
         toilet_id: 1,
         occupied: 0,
         status: 0,
@@ -133,7 +133,7 @@ export const ToiletInfoList = [
       },
       {
         id: 4,
-        room_id: 3,
+        room_id: 4,
         toilet_id: 1,
         occupied: 1,
         status: 0,
@@ -141,7 +141,7 @@ export const ToiletInfoList = [
       },
       {
         id: 5,
-        room_id: 4,
+        room_id: 5,
         toilet_id: 1,
         occupied: 0,
         status: 0,

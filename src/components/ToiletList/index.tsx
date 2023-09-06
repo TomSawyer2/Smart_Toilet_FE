@@ -8,6 +8,7 @@ import ListItem from './components/ListItem';
 import { CollapsedContext, ToiletContext } from '@/pages/layout';
 import { ToiletInfo } from '@/typings';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Location } from '@/const/Location';
 
 const ToiletList = () => {
   // 从全局context中获取数据
@@ -35,19 +36,18 @@ const ToiletList = () => {
         {!collapsed ? (
           <>
             <Select
-              style={{ width: 120 }}
+              defaultValue={Location[0]}
+              style={{ width: 150 }}
               onChange={handleSelectChange}
-              options={[
-                { value: 'jack', label: 'Jack' },
-                { value: 'lucy', label: 'Lucy' },
-                { value: 'Yiminghe', label: 'yiminghe' },
-              ]}
+              options={Location.map((item) => {
+                return { value: item, label: item };
+              })}
             />
             <Search
               placeholder="公厕名称"
               allowClear
               onSearch={onSearch}
-              style={{ width: 150 }}
+              style={{ width: 100 }}
             />
             <div
               className={styles.iconBox}

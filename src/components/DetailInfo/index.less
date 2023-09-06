@@ -12,3 +12,61 @@
 .info {
   padding: 0 40px;
 }
+
+.body {
+  padding: 20px 40px;
+  height: calc(100vh - 70px - 40px - 1px);
+  display: flex;
+}
+
+.bodyLeft {
+  height: 100%;
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roomOccupied {
+  position: relative;
+  width: 100px;
+  height: 200px;
+  background-color: #df463c;
+  border: black 1px solid;
+  &:hover {
+    .iconBox {
+      opacity: 1;
+    }
+  }
+}
+
+.roomEmpty {
+  position: relative;
+  width: 100px;
+  height: 200px;
+  background-color: #fff;
+  border: black 1px solid;
+  &:hover {
+    .iconBox {
+      opacity: 1;
+    }
+  }
+}
+
+.iconBox {
+  opacity: 0;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    background-color: rgba(5, 5, 5, 0.16);
+  }
+}
