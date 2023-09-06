@@ -1,0 +1,43 @@
+.container {
+  height: 80px;
+  padding: 10px 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 6px;
+  &:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.empty {
+  color: #54c629;
+}
+
+.busy {
+  color: #ea4840;
+}
+
+.body {
+  margin-top: 25px;
+  display: flex;
+}
+
+.roomBusy {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #ea4840;
+}
+
+.roomEmpty {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border: 1px solid rgba(5, 5, 5, 0.2);
+}

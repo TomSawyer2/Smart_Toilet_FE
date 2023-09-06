@@ -1,0 +1,55 @@
+.container {
+  width: 100%;
+  height: calc(100% - 80px);
+  transition: all 0.3s;
+}
+
+.header {
+  display: flex;
+  height: 30px;
+  padding: 20px 10px;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(5, 5, 5, 0.16);
+}
+
+.list {
+  height: calc(100vh - 80px - 70px - 20px);
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.iconBox {
+  margin-left: 8px;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(5, 5, 5, 0.16);
+  }
+}
+
+.collapsedItem,
+.selectedCollapsedItem {
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  &:hover {
+    background-color: rgba(5, 5, 5, 0.16);
+  }
+}
+.selectedCollapsedItem {
+  background-color: #e6f4ff;
+  &:hover {
+    background-color: #e6f4ff;
+  }
+}
