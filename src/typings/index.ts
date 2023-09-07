@@ -16,3 +16,9 @@ export interface RoomInfo {
   status: number;
   update_time: string;
 }
+
+export interface UserInfo {
+  id: number;
+  username: string;
+  permission: number;
+}

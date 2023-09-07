@@ -5,10 +5,10 @@ import { Select } from 'antd';
 // const { Search } = Input;
 import { ToiletInfoList } from '@/const/ToiletList';
 import ListItem from './components/ListItem';
-import { CollapsedContext, ToiletContext } from '@/pages/layout';
 import { ToiletInfo } from '@/typings';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Location } from '@/const/Location';
+import { CollapsedContext, ToiletContext } from '@/const/context';
 
 const ToiletList = () => {
   // 从全局context中获取数据

@@ -1,13 +1,13 @@
 import React, { useContext, useState } from 'react';
 
 import styles from './index.less';
-import { ToiletContext } from '@/pages/layout';
 import { FormOutlined } from '@ant-design/icons';
 import { RoomInfo, ToiletInfo } from '@/typings';
 import { Input, Modal, Radio, RadioChangeEvent, Space } from 'antd';
 import LineChart from '../LineChart';
 import { SmellData } from '@/const/SmellData';
 import { OccupiedData } from '@/const/OccupiedData';
+import { ToiletContext } from '@/const/context';
 
 interface ModalContentProps {
   toiletInfo: ToiletInfo;

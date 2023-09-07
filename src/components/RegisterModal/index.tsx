@@ -1,29 +1,26 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import { Button, Form, Input, Modal } from 'antd';
-import { LoginParams } from '@/services/user';
+import { Button, Form, Input, Modal, message } from 'antd';
+import { RegisterParams } from '@/services/user';
 
 import styles from './index.less';
-import { UserInfoContext } from '@/const/context';
 
-interface LoginModalProps {
+interface RegisterModalProps {
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }
 
-const LoginModal = (props: LoginModalProps) => {
+const RegisterModal = (props: RegisterModalProps) => {
   const { visible, setVisible } = props;
   const [form] = Form.useForm();
 
-  const { setUserInfo } = useContext(UserInfoContext);
-
-  const handleLogin = (values: LoginParams) => {
+  const handleLogin = (values: RegisterParams & { password2: string }) => {
+    const { password2, password } = values;
+    if (password !== password2) {
+      message.error('两次输入的密码不一致');
+      return;
+    }
     console.log(values);
-    setUserInfo({
-      id: 1,
-      username: 'admin',
-      permission: 1,
-    });
     setVisible(false);
   };
 
@@ -55,13 +52,20 @@ const LoginModal = (props: LoginModalProps) => {
           >
             <Input.Password />
           </Form.Item>
+          <Form.Item
+            label="确认密码"
+            name="password2"
+            rules={[{ required: true, message: '请再次输入密码' }]}
+          >
+            <Input.Password />
+          </Form.Item>
           <Form.Item>
             <div className={styles.footer}>
               <Button
                 htmlType="submit"
                 type="primary"
               >
-                登录
+                注册
               </Button>
             </div>
           </Form.Item>
@@ -71,4 +75,4 @@ const LoginModal = (props: LoginModalProps) => {
   );
 };
 
-export default LoginModal;
+export default RegisterModal;

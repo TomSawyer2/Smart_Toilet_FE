@@ -1,23 +1,93 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
 import styles from './index.less';
+import LoginModal from '../LoginModal';
+import RegisterModal from '../RegisterModal';
+import { UserInfoContext } from '@/const/context';
+import { Dropdown, MenuProps, message } from 'antd';
+import { UserInfo } from '@/typings';
 
 const UserBar = () => {
+  const [loginModalVisible, setLoginModalVisible] = useState<boolean>(false);
+  const [registerModalVisible, setRegisterModalVisible] = useState<boolean>(false);
+
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
+
+  const items: MenuProps['items'] = [
+    {
+      label: '用户反馈',
+      key: '1',
+    },
+    {
+      label: '设备管理',
+      key: '2',
+    },
+    {
+      label: '用户管理',
+      key: '3',
+    },
+    {
+      label: '退出登录',
+      key: '4',
+      danger: true,
+    },
+  ];
+
+  const onClick: MenuProps['onClick'] = ({ key }) => {
+    switch (key) {
+      case '1':
+        message.info('用户反馈');
+        break;
+      case '2':
+        message.info('设备管理');
+        break;
+      case '3':
+        message.info('用户管理');
+        break;
+      case '4':
+        message.success('退出登录');
+        setUserInfo({} as UserInfo);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <span>管理员</span>
-      <span
-        className={styles.highlight}
-        style={{ marginLeft: 6 }}
-      >
-        注册{'>'}
-      </span>
-      <span
-        className={styles.highlight}
-        style={{ marginLeft: 6 }}
-      >
-        登录{'>'}
-      </span>
+      {userInfo.id ? (
+        <Dropdown menu={{ items, onClick }}>
+          <div className={styles.dropdown}>
+            <span>{userInfo.username}</span>
+          </div>
+        </Dropdown>
+      ) : (
+        <>
+          <span>管理员</span>
+          <span
+            className={styles.highlight}
+            style={{ marginLeft: 6 }}
+            onClick={() => setRegisterModalVisible(true)}
+          >
+            注册{'>'}
+          </span>
+          <RegisterModal
+            visible={registerModalVisible}
+            setVisible={setRegisterModalVisible}
+          />
+          <span
+            className={styles.highlight}
+            style={{ marginLeft: 6 }}
+            onClick={() => setLoginModalVisible(true)}
+          >
+            登录{'>'}
+          </span>
+          <LoginModal
+            visible={loginModalVisible}
+            setVisible={setLoginModalVisible}
+          />
+        </>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import { ConfigProvider } from 'antd';
 import React from 'react';
+import { App, ConfigProvider } from 'antd';
 
 export function rootContainer(container: any) {
   return (
@@ -10,7 +10,7 @@ export function rootContainer(container: any) {
         },
       }}
     >
-      {container}
+      <App>{container}</App>
     </ConfigProvider>
   );
 }
