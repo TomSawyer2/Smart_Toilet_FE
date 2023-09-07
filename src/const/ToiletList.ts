@@ -12,7 +12,7 @@ export const ToiletInfoList = [
         roomId: 1,
         toiletId: 1,
         occupied: 0,
-        status: 0,
+        status: 1,
         updateTime: '2020-12-12 12:12:12',
       },
       {
@@ -28,7 +28,7 @@ export const ToiletInfoList = [
         roomId: 3,
         toiletId: 1,
         occupied: 0,
-        status: 0,
+        status: 2,
         updateTime: '2020-12-12 12:12:12',
       },
       {

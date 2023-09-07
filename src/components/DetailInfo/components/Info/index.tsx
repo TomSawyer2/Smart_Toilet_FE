@@ -9,6 +9,7 @@ import { ToiletContext, UserInfoContext, UserInfoContextProps } from '@/const/co
 import LineChart from '@/components/LineChart';
 
 import styles from './index.less';
+import { RoomStatus } from '@/const/enums';
 
 interface ModalContentProps {
   toiletInfo: ToiletInfo;
@@ -120,22 +121,40 @@ const Info = (props: InfoProps) => {
       </div>
       <div className={styles.body}>
         <div className={styles.bodyLeft}>
-          {toiletInfo.rooms.map((room) => (
-            <div
-              className={room.occupied ? styles.roomOccupied : styles.roomEmpty}
-              key={room.id}
-            >
-              <div
-                className={styles.iconBox}
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setSelectedRoom(room);
-                }}
-              >
-                <FormOutlined />
-              </div>
-            </div>
-          ))}
+          {toiletInfo.rooms.map((room) => {
+            if (room.status === RoomStatus.Normal) {
+              return (
+                <div
+                  className={room.occupied ? styles.roomOccupied : styles.roomEmpty}
+                  key={room.id}
+                >
+                  <div
+                    className={styles.iconBox}
+                    onClick={() => {
+                      setIsModalOpen(true);
+                      setSelectedRoom(room);
+                    }}
+                  >
+                    <FormOutlined />
+                  </div>
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  className={styles.roomRepairing}
+                  key={room.id}
+                >
+                  {room.status === RoomStatus.Submitted && (
+                    <div className={styles.tooltext}>已报修</div>
+                  )}
+                  {room.status === RoomStatus.Repairing && (
+                    <div className={styles.tooltext}>正在维修</div>
+                  )}
+                </div>
+              );
+            }
+          })}
         </div>
         <div className={styles.bodyRight}>
           <div className={styles.chartItem}>
