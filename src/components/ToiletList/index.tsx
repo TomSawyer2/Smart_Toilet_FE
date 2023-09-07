@@ -85,16 +85,20 @@ const ToiletList = () => {
                     isSelected={toiletInfo.id === item.id}
                   />
                 ) : (
-                  <Tooltip placement="right" title={item.name}>
-                  <div
-                    className={
-                      toiletInfo.id === item.id
-                        ? styles.selectedCollapsedItem
-                        : styles.collapsedItem
-                    }
+                  <Tooltip
+                    placement="right"
+                    title={item.name}
                   >
-                    <div className={styles.name}>{item.name[0]}</div>
-                  </div></Tooltip>
+                    <div
+                      className={
+                        toiletInfo.id === item.id
+                          ? styles.selectedCollapsedItem
+                          : styles.collapsedItem
+                      }
+                    >
+                      <div className={styles.name}>{item.name[0]}</div>
+                    </div>
+                  </Tooltip>
                 )}
               </div>
             );
