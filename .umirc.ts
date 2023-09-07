@@ -12,6 +12,10 @@ export default defineConfig({
     {
       path: '/',
       component: '@/pages/layout/index',
+      routes: [
+        { path: '/index', component: '@/pages/index/index' },
+        { path: '/admin', component: '@/pages/admin/index' }
+      ]
     },
   ],
   title: '智能公厕',

@@ -6,6 +6,8 @@ import RegisterModal from '../RegisterModal';
 import { UserInfoContext } from '@/const/context';
 import { Dropdown, MenuProps, message } from 'antd';
 import { UserInfo } from '@/typings';
+import { history } from 'umi';
+import { UserOutlined } from '@ant-design/icons';
 
 const UserBar = () => {
   const [loginModalVisible, setLoginModalVisible] = useState<boolean>(false);
@@ -36,13 +38,13 @@ const UserBar = () => {
   const onClick: MenuProps['onClick'] = ({ key }) => {
     switch (key) {
       case '1':
-        message.info('用户反馈');
+        history.push('/admin#feedback');
         break;
       case '2':
-        message.info('设备管理');
+        history.push('/admin#device');
         break;
       case '3':
-        message.info('用户管理');
+        history.push('/admin#user');
         break;
       case '4':
         message.success('退出登录');
@@ -55,10 +57,11 @@ const UserBar = () => {
 
   return (
     <div className={styles.container}>
-      {userInfo.id ? (
+      {userInfo.permission ? (
         <Dropdown menu={{ items, onClick }}>
           <div className={styles.dropdown}>
-            <span>{userInfo.username}</span>
+            <UserOutlined />
+            <span style={{ marginLeft: 8 }}>{userInfo.username}</span>
           </div>
         </Dropdown>
       ) : (

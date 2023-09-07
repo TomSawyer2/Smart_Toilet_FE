@@ -1,7 +1,7 @@
 import React from 'react';
+import { ToiletInfo } from '@/typings';
 
 import styles from './index.less';
-import { ToiletInfo } from '@/typings';
 
 interface ListItemProps {
   info: ToiletInfo;
@@ -29,7 +29,7 @@ const ListItem = (props: ListItemProps) => {
     <div
       className={styles.container}
       style={{
-        backgroundColor: isSelected ? '#e6f4ff' : '#fff',
+        backgroundColor: isSelected ? '#e4faeb' : '#fff',
       }}
     >
       <div className={styles.header}>
