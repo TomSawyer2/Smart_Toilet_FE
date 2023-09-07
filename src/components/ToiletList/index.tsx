@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import styles from './index.less';
-import { Select } from 'antd';
+import { Empty, Select, Tooltip } from 'antd';
 // const { Search } = Input;
 import { ToiletInfoList } from '@/const/ToiletList';
 import ListItem from './components/ListItem';
@@ -14,9 +14,11 @@ const ToiletList = () => {
   // 从全局context中获取数据
   const { toiletInfo, setToiletInfo } = useContext(ToiletContext);
   const { collapsed, setCollapsed } = useContext(CollapsedContext);
+  const [selectedBuilding, setSelectedBuilding] = useState<string>('东九A栋');
 
   const handleSelectChange = (e: string) => {
-    console.log(e);
+    setSelectedBuilding(e);
+    setToiletInfo({} as ToiletInfo);
   };
 
   // const onSearch = (e: string) => {
@@ -38,6 +40,7 @@ const ToiletList = () => {
             <Select
               defaultValue={Location[0]}
               style={{ width: 150 }}
+              value={selectedBuilding}
               onChange={handleSelectChange}
               options={Location.map((item) => {
                 return { value: item, label: item };
@@ -69,29 +72,39 @@ const ToiletList = () => {
         className={styles.list}
         style={{ alignItems: collapsed ? 'center' : '' }}
       >
-        {ToiletInfoList.map((item, index) => {
-          return (
-            <div
-              key={index}
-              onClick={() => handleSelectToilet(item)}
-            >
-              {!collapsed ? (
-                <ListItem
-                  info={item}
-                  isSelected={toiletInfo.id === item.id}
-                />
-              ) : (
-                <div
-                  className={
-                    toiletInfo.id === item.id ? styles.selectedCollapsedItem : styles.collapsedItem
-                  }
-                >
-                  <div className={styles.name}>{item.name[0]}</div>
-                </div>
-              )}
-            </div>
-          );
-        })}
+        {selectedBuilding === '东九A栋' ? (
+          ToiletInfoList.map((item, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => handleSelectToilet(item)}
+              >
+                {!collapsed ? (
+                  <ListItem
+                    info={item}
+                    isSelected={toiletInfo.id === item.id}
+                  />
+                ) : (
+                  <Tooltip placement="right" title={item.name}>
+                  <div
+                    className={
+                      toiletInfo.id === item.id
+                        ? styles.selectedCollapsedItem
+                        : styles.collapsedItem
+                    }
+                  >
+                    <div className={styles.name}>{item.name[0]}</div>
+                  </div></Tooltip>
+                )}
+              </div>
+            );
+          })
+        ) : (
+          <Empty
+            description="暂无公厕数据"
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+          />
+        )}
       </div>
     </div>
   );

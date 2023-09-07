@@ -99,6 +99,7 @@ const Info = (props: InfoProps) => {
           <span>{toiletInfo.name}</span>
           <span style={{ marginLeft: 20 }}>温度：{calcTempText(toiletInfo.temperture)}</span>
           <span style={{ marginLeft: 20 }}>湿度：{toiletInfo.humidity}%</span>
+          <span style={{ marginLeft: 20 }}>异味浓度：{toiletInfo.airStatus}%</span>
           {userInfo.permission && (
             <span style={{ marginLeft: 10 }}>
               <Button>
