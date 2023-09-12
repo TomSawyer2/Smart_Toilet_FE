@@ -19,6 +19,17 @@ jobs:
         run: pnpm i --no-frozen-lockfile
       - name: 前端项目打包
         run: pnpm build
+      - name: Server Start
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            cd /home/ubuntu/st
+            rm -rf dist
+            mkdir dist
       - name: Deploy file to Server
         uses: wlixcc/SFTP-Deploy-Action@v1.0
         with:
@@ -27,4 +38,4 @@ jobs:
           port: ${{ secrets.PORT }}
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }} # 引用配置，SSH 私钥
           local_path: 'dist/*'
-          remote_path: '/home/ubuntu/st'
+          remote_path: '/home/ubuntu/st/dist/'
