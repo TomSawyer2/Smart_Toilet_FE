@@ -23,7 +23,7 @@ const Layout = () => {
           <div className={styles.empty}>
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}
-              description="请选择公厕"
+              description="请在左侧选择公厕"
             />
           </div>
         ) : (
