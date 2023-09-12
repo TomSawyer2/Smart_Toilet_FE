@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { Button, Form, Input, Modal, message } from 'antd';
+import { history } from 'umi';
 
-import { Button, Form, Input, Modal } from 'antd';
-import { LoginParams } from '@/services/user';
+import { LoginParams, login } from '@/services/user';
 
 import styles from './index.less';
-import { UserInfoContext } from '@/const/context';
 
 interface LoginModalProps {
   visible: boolean;
@@ -15,16 +15,13 @@ const LoginModal = (props: LoginModalProps) => {
   const { visible, setVisible } = props;
   const [form] = Form.useForm();
 
-  const { setUserInfo } = useContext(UserInfoContext);
-
-  const handleLogin = (values: LoginParams) => {
-    console.log(values);
-    setUserInfo({
-      id: 1,
-      username: 'admin',
-      permission: 1,
-    });
+  const handleLogin = async (values: LoginParams) => {
+    const { username, password } = values;
+    const token = await login({ username, password });
+    window.localStorage.setItem('token', token);
+    message.success('登录成功！');
     setVisible(false);
+    history.go(0);
   };
 
   return (

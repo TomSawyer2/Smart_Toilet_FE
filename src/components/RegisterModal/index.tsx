@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button, Form, Input, Modal, message } from 'antd';
-import { RegisterParams } from '@/services/user';
+import { RegisterParams, register } from '@/services/user';
 
 import styles from './index.less';
 
@@ -14,13 +14,14 @@ const RegisterModal = (props: RegisterModalProps) => {
   const { visible, setVisible } = props;
   const [form] = Form.useForm();
 
-  const handleLogin = (values: RegisterParams & { password2: string }) => {
-    const { password2, password } = values;
+  const handleRegister = async (values: RegisterParams & { password2: string }) => {
+    const { password2, password, username } = values;
     if (password !== password2) {
       message.error('两次输入的密码不一致');
       return;
     }
-    console.log(values);
+    await register({ username, password });
+    message.success('注册成功');
     setVisible(false);
   };
 
@@ -36,7 +37,7 @@ const RegisterModal = (props: RegisterModalProps) => {
       <div className={styles.container}>
         <Form
           form={form}
-          onFinish={handleLogin}
+          onFinish={handleRegister}
         >
           <Form.Item
             label="用户名"

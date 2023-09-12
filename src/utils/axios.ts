@@ -16,7 +16,7 @@ const defaultConfig: AxiosRequestConfig = {
   headers: {
     'Content-type': 'application/json',
   },
-  baseURL: '',
+  baseURL: process.env.NODE_ENV === 'development' ? '' : 'https://st.tomsawyer2.xyz',
 };
 
 // 请求拦截

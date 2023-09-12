@@ -22,3 +22,11 @@ export async function login(params: LoginParams) {
   const { data } = await axios.post(url, params);
   return data;
 }
+
+// 获取用户信息
+export async function getUserInfo() {
+  const url = '/api/userInfo';
+
+  const { data } = await axios.get(url);
+  return data;
+}
