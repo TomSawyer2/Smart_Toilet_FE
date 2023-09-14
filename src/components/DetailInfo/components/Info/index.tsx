@@ -1,17 +1,17 @@
 import React, { useCallback, useContext, useState } from 'react';
-
-import { FormOutlined, SyncOutlined } from '@ant-design/icons';
-import { RoomInfo, ToiletInfo } from '@/typings';
 import { Button, Input, Modal, Radio, RadioChangeEvent, Space, message } from 'antd';
+import { FormOutlined, SyncOutlined } from '@ant-design/icons';
+
+import { RoomInfo, ToiletInfo } from '@/typings';
 import { SmellData } from '@/const/SmellData';
 import { OccupiedData } from '@/const/OccupiedData';
 import { ToiletContext, UserInfoContext, UserInfoContextProps } from '@/const/context';
 import LineChart from '@/components/LineChart';
-
-import styles from './index.less';
 import { RoomStatus } from '@/const/enums';
 import { refreshAir } from '@/services/toilet';
 import { addFeedback } from '@/services/feedback';
+
+import styles from './index.less';
 
 interface ModalContentProps {
   toiletInfo: ToiletInfo;
@@ -66,7 +66,7 @@ const ModalContent = (props: ModalContentProps) => {
   );
 };
 
-const SelectTextMap = ['门锁损坏', '异味严重'];
+const SelectTextMap = ['', '门锁损坏', '异味严重'];
 
 const calcTempText = (temp: number) => {
   if (!temp) {

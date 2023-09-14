@@ -27,8 +27,10 @@ export interface FeedbackItem {
   id: number;
   toiletId: number;
   roomId: number;
+  roomDbId: number;
   content: string;
   updateTime: string;
+  status: number;
 }
 
 export interface Device {

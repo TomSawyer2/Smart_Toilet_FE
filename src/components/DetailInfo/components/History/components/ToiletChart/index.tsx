@@ -1,8 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { ToiletHistory } from '@/typings';
 import dayjs from 'dayjs';
+
+import { ToiletHistory } from '@/typings';
 import { getToiletHistory } from '@/services/toilet';
 import { ToiletContext } from '@/const/context';
 

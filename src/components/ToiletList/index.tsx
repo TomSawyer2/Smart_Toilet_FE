@@ -1,14 +1,15 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-
-import styles from './index.less';
 import { Empty, Select, Spin, Tooltip } from 'antd';
 // const { Search } = Input;
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+
 import ListItem from './components/ListItem';
 import { ToiletInfo } from '@/typings';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Location } from '@/const/Location';
 import { CollapsedContext, ToiletContext } from '@/const/context';
 import { getToiletList } from '@/services/toilet';
+
+import styles from './index.less';
 
 const ToiletList = () => {
   const { toiletInfo, setToiletInfo } = useContext(ToiletContext);

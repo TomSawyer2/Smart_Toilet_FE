@@ -1,16 +1,22 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Empty } from 'antd';
 
 import ToiletList from '@/components/ToiletList';
 import UserBar from '@/components/UserBar';
 import DetailInfo from '@/components/DetailInfo';
 import { CollapsedContext, ToiletContext } from '@/const/context';
+import { ToiletInfo } from '@/typings';
 
 import styles from './index.less';
 
 const Layout = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);
-  const { toiletInfo } = useContext(ToiletContext);
+  const { toiletInfo, setToiletInfo } = useContext(ToiletContext);
+
+  useEffect(() => {
+    setToiletInfo({} as ToiletInfo);
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>

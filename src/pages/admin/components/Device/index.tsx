@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import styles from './index.less';
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
+
 import { Device } from '@/typings';
+import { getDeviceList } from '@/services/admin';
+
+import styles from './index.less';
 
 const DeviceList = () => {
   const [page, setPage] = useState<number>(1);
@@ -22,23 +25,21 @@ const DeviceList = () => {
       dataIndex: 'sn',
       key: 'sn',
     },
+    {
+      title: '原始值',
+      dataIndex: 'value',
+      key: 'value',
+    },
   ];
 
   const fetchDeviceList = useCallback(async (page: number, pageSize: number) => {
     setLoading(true);
-    // const res = await getAdminUserInfo({ page, pageSize });
-    // const { total, userList } = res;
-    const total = 1;
-    const deviceList: Device[] = [
-      {
-        id: 1,
-        sn: '123456',
-      },
-    ];
+    const res = await getDeviceList({ page, pageSize });
+    const { total, list } = res;
     setPage(page);
     setPageSize(pageSize);
     setTotal(total);
-    setDeviceList(deviceList);
+    setDeviceList(list);
     setLoading(false);
   }, []);
 

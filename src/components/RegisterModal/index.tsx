@@ -1,6 +1,6 @@
 import React from 'react';
-
 import { Button, Form, Input, Modal, message } from 'antd';
+
 import { RegisterParams, register } from '@/services/user';
 
 import styles from './index.less';

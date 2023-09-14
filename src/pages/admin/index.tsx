@@ -3,9 +3,11 @@ import { Menu, message } from 'antd';
 import React, { useContext, useState, useEffect } from 'react';
 import { history } from 'umi';
 import { LeftOutlined } from '@ant-design/icons';
+
 import User from './components/User';
 import Feedback from './components/Feedback';
 import DeviceList from './components/Device';
+
 import './index.less';
 
 const Admin = () => {

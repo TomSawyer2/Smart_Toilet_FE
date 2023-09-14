@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
+import { Dropdown, MenuProps, message } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { history } from 'umi';
 
-import styles from './index.less';
 import LoginModal from '../LoginModal';
 import RegisterModal from '../RegisterModal';
 import { UserInfoContext } from '@/const/context';
-import { Dropdown, MenuProps, message } from 'antd';
 import { UserInfo } from '@/typings';
-import { history } from 'umi';
-import { UserOutlined } from '@ant-design/icons';
+
+import styles from './index.less';
 
 const UserBar = () => {
   const [loginModalVisible, setLoginModalVisible] = useState<boolean>(false);
