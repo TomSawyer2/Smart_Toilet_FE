@@ -1,10 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { ToiletHistory } from '@/typings';
 import dayjs from 'dayjs';
+import { getToiletHistory } from '@/services/toilet';
+import { ToiletContext } from '@/const/context';
 
 const ToiletChart = () => {
+  const { toiletInfo } = useContext(ToiletContext);
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(10);
   const [total, setTotal] = useState<number>(0);
@@ -21,16 +24,25 @@ const ToiletChart = () => {
       title: '温度',
       dataIndex: 'temperature',
       key: 'temperature',
+      render: (text) => {
+        return `${text ? text : '--'}°C`;
+      },
     },
     {
       title: '湿度',
       dataIndex: 'humidity',
       key: 'humidity',
+      render: (text) => {
+        return `${text ? text : '--'}%`;
+      },
     },
     {
       title: '异味浓度',
       dataIndex: 'airStatus',
       key: 'airStatus',
+      render: (text) => {
+        return `${text ? text : '--'}%`;
+      },
     },
     {
       title: '时间',
@@ -42,31 +54,23 @@ const ToiletChart = () => {
     },
   ];
 
-  const fetchToiletHistoryList = useCallback(async (page: number, pageSize: number) => {
-    setLoading(true);
-    // const res = await getAdminUserInfo({ page, pageSize });
-    // const { total, userList } = res;
-    const total = 1;
-    const toiletHistory: ToiletHistory[] = [
-      {
-        id: 1,
-        name: '公厕1',
-        temperature: 1,
-        humidity: 1,
-        airStatus: 1,
-        updateTime: '2021-05-01 12:00:00',
-      },
-    ];
-    setPage(page);
-    setPageSize(pageSize);
-    setTotal(total);
-    setToiletHistoryList(toiletHistory);
-    setLoading(false);
-  }, []);
+  const fetchToiletHistoryList = useCallback(
+    async (page: number, pageSize: number) => {
+      setLoading(true);
+      const res = await getToiletHistory({ page, pageSize, toiletId: toiletInfo.id });
+      const { total, list } = res;
+      setPage(page);
+      setPageSize(pageSize);
+      setTotal(total);
+      setToiletHistoryList(list);
+      setLoading(false);
+    },
+    [toiletInfo],
+  );
 
   useEffect(() => {
     fetchToiletHistoryList(page, pageSize);
-  }, []);
+  }, [toiletInfo]);
 
   return (
     <div>

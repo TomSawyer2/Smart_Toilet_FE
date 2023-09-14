@@ -1,33 +1,45 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import styles from './index.less';
-import { Empty, Select, Tooltip } from 'antd';
+import { Empty, Select, Spin, Tooltip } from 'antd';
 // const { Search } = Input;
-import { ToiletInfoList } from '@/const/ToiletList';
 import ListItem from './components/ListItem';
 import { ToiletInfo } from '@/typings';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Location } from '@/const/Location';
 import { CollapsedContext, ToiletContext } from '@/const/context';
+import { getToiletList } from '@/services/toilet';
 
 const ToiletList = () => {
-  // 从全局context中获取数据
   const { toiletInfo, setToiletInfo } = useContext(ToiletContext);
   const { collapsed, setCollapsed } = useContext(CollapsedContext);
   const [selectedBuilding, setSelectedBuilding] = useState<string>('东九A栋');
+  const [toiletInfoList, setToiletInfoList] = useState<ToiletInfo[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSelectChange = (e: string) => {
+  useEffect(() => {
+    fetchToiletInfoList();
+  }, []);
+
+  const fetchToiletInfoList = useCallback(async () => {
+    setLoading(true);
+    const res = await getToiletList();
+    setToiletInfoList(res);
+    setLoading(false);
+  }, []);
+
+  const handleSelectChange = useCallback((e: string) => {
     setSelectedBuilding(e);
     setToiletInfo({} as ToiletInfo);
-  };
+  }, []);
 
   // const onSearch = (e: string) => {
   //   console.log(e);
   // };
 
-  const handleSelectToilet = (item: ToiletInfo) => {
+  const handleSelectToilet = useCallback((item: ToiletInfo) => {
     setToiletInfo(item);
-  };
+  }, []);
 
   return (
     <div
@@ -73,36 +85,40 @@ const ToiletList = () => {
         style={{ alignItems: collapsed ? 'center' : '' }}
       >
         {selectedBuilding === '东九A栋' ? (
-          ToiletInfoList.map((item, index) => {
-            return (
-              <div
-                key={index}
-                onClick={() => handleSelectToilet(item)}
-              >
-                {!collapsed ? (
-                  <ListItem
-                    info={item}
-                    isSelected={toiletInfo.id === item.id}
-                  />
-                ) : (
-                  <Tooltip
-                    placement="right"
-                    title={item.name}
-                  >
-                    <div
-                      className={
-                        toiletInfo.id === item.id
-                          ? styles.selectedCollapsedItem
-                          : styles.collapsedItem
-                      }
+          loading ? (
+            <Spin />
+          ) : (
+            toiletInfoList.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  onClick={() => handleSelectToilet(item)}
+                >
+                  {!collapsed ? (
+                    <ListItem
+                      info={item}
+                      isSelected={toiletInfo.id === item.id}
+                    />
+                  ) : (
+                    <Tooltip
+                      placement="right"
+                      title={item.name}
                     >
-                      <div className={styles.name}>{item.name[0]}</div>
-                    </div>
-                  </Tooltip>
-                )}
-              </div>
-            );
-          })
+                      <div
+                        className={
+                          toiletInfo.id === item.id
+                            ? styles.selectedCollapsedItem
+                            : styles.collapsedItem
+                        }
+                      >
+                        <div className={styles.name}>{item.name[0]}</div>
+                      </div>
+                    </Tooltip>
+                  )}
+                </div>
+              );
+            })
+          )
         ) : (
           <Empty
             description="暂无公厕数据"

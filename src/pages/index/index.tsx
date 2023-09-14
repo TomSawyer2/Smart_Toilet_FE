@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
+import { Empty } from 'antd';
 
-import styles from './index.less';
 import ToiletList from '@/components/ToiletList';
 import UserBar from '@/components/UserBar';
-import { Empty } from 'antd';
 import DetailInfo from '@/components/DetailInfo';
 import { CollapsedContext, ToiletContext } from '@/const/context';
+
+import styles from './index.less';
 
 const Layout = () => {
   const [collapsed, setCollapsed] = useState<boolean>(false);

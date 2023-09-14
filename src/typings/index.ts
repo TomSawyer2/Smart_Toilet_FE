@@ -1,11 +1,11 @@
 export interface ToiletInfo {
   id: number;
   name: string;
-  temperture: number;
+  temperature: number;
   humidity: number;
   airStatus: number;
   updateTime: string;
-  rooms: RoomInfo[];
+  roomList: RoomInfo[];
 }
 
 export interface RoomInfo {

@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 
 import { FormOutlined, SyncOutlined } from '@ant-design/icons';
 import { RoomInfo, ToiletInfo } from '@/typings';
-import { Button, Input, Modal, Radio, RadioChangeEvent, Space } from 'antd';
+import { Button, Input, Modal, Radio, RadioChangeEvent, Space, message } from 'antd';
 import { SmellData } from '@/const/SmellData';
 import { OccupiedData } from '@/const/OccupiedData';
 import { ToiletContext, UserInfoContext, UserInfoContextProps } from '@/const/context';
@@ -10,6 +10,8 @@ import LineChart from '@/components/LineChart';
 
 import styles from './index.less';
 import { RoomStatus } from '@/const/enums';
+import { refreshAir } from '@/services/toilet';
+import { addFeedback } from '@/services/feedback';
 
 interface ModalContentProps {
   toiletInfo: ToiletInfo;
@@ -64,8 +66,12 @@ const ModalContent = (props: ModalContentProps) => {
   );
 };
 
+const SelectTextMap = ['门锁损坏', '异味严重'];
+
 const calcTempText = (temp: number) => {
-  if (temp < 10) {
+  if (!temp) {
+    return <span className={styles.disable}>--℃</span>;
+  } else if (temp < 10) {
     return <span className={styles.cold}>{temp}℃</span>;
   } else if (temp > 30) {
     return <span className={styles.hot}>{temp}℃</span>;
@@ -87,23 +93,46 @@ const Info = (props: InfoProps) => {
   const [inputValue, setInputValue] = useState<string>('');
   const { userInfo } = useContext<UserInfoContextProps>(UserInfoContext);
 
-  const handleFeedback = () => {
-    console.log('submit', selectedRoom, feedbackValue, inputValue);
+  const handleFeedback = async () => {
+    await addFeedback({
+      toiletId: toiletInfo.id,
+      roomId: selectedRoom.roomId,
+      roomDbId: selectedRoom.id,
+      content: feedbackValue === 3 ? inputValue : SelectTextMap[feedbackValue],
+    });
+    message.success('反馈成功');
     setIsModalOpen(false);
     setSelectedRoom({} as RoomInfo);
   };
+
+  const handleRefreshAir = useCallback(async () => {
+    await refreshAir({
+      toiletId: toiletInfo.id,
+    });
+    message.success('换气成功');
+  }, [toiletInfo]);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.info}>
           <span>{toiletInfo.name}</span>
-          <span style={{ marginLeft: 20 }}>温度：{calcTempText(toiletInfo.temperture)}</span>
-          <span style={{ marginLeft: 20 }}>湿度：{toiletInfo.humidity}%</span>
-          <span style={{ marginLeft: 20 }}>异味浓度：{toiletInfo.airStatus}%</span>
+          <span style={{ marginLeft: 20 }}>温度：{calcTempText(toiletInfo.temperature)}</span>
+          <span style={{ marginLeft: 20 }}>
+            湿度：
+            <span className={!toiletInfo?.humidity ? styles.disable : ''}>
+              {toiletInfo?.humidity ? toiletInfo.humidity : '--'}%
+            </span>
+          </span>
+          <span style={{ marginLeft: 20 }}>
+            异味浓度：
+            <span className={!toiletInfo?.airStatus ? styles.disable : ''}>
+              {toiletInfo?.airStatus ? toiletInfo.airStatus : '--'}%
+            </span>
+          </span>
           {userInfo.permission && (
             <span style={{ marginLeft: 10 }}>
-              <Button>
+              <Button onClick={() => handleRefreshAir()}>
                 <SyncOutlined />
                 一键换气
               </Button>
@@ -121,7 +150,7 @@ const Info = (props: InfoProps) => {
       </div>
       <div className={styles.body}>
         <div className={styles.bodyLeft}>
-          {toiletInfo.rooms.map((room) => {
+          {toiletInfo.roomList.map((room) => {
             if (room.status === RoomStatus.Normal) {
               return (
                 <div

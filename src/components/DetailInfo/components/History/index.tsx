@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react';
-import { ToiletContext } from '@/const/context';
 import { Select } from 'antd';
 
-import styles from './index.less';
 import ToiletChart from './components/ToiletChart';
 import RoomChart from './components/RoomChart';
+import { ToiletContext } from '@/const/context';
+
+import styles from './index.less';
 
 interface HistoryProps {
   setMode: (mode: 'info' | 'history') => void;
@@ -40,13 +41,13 @@ const History = (props: HistoryProps) => {
             onChange={(e) => handleSelectChange(e)}
           >
             <Select.Option value="all">整体数据</Select.Option>
-            {toiletInfo.rooms.map((room) => {
+            {toiletInfo.roomList.map((room) => {
               return (
                 <Select.Option
                   value={room.id}
                   key={room.id}
                 >
-                  坑位{room.id}
+                  坑位{room.roomId}
                 </Select.Option>
               );
             })}

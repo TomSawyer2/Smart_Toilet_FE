@@ -12,10 +12,10 @@ const ListItem = (props: ListItemProps) => {
   const { info, isSelected } = props;
 
   const getOccupiedStatus = () => {
-    const { rooms } = info;
+    const { roomList } = info;
     let occupied = 0;
-    const total = rooms.length;
-    rooms.forEach((room) => {
+    const total = roomList.length;
+    roomList.forEach((room) => {
       occupied += room.occupied;
     });
     if (occupied / total < 0.5) {
@@ -37,7 +37,7 @@ const ListItem = (props: ListItemProps) => {
         <span className={styles.status}>{getOccupiedStatus()}</span>
       </div>
       <div className={styles.body}>
-        {info.rooms.map((room, index) => (
+        {info.roomList.map((room, index) => (
           <div
             className={room.occupied === 1 ? styles.roomBusy : styles.roomEmpty}
             style={{ marginLeft: index === 0 ? 0 : 5 }}

@@ -3,6 +3,7 @@ import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { RoomHistory } from '@/typings';
 import dayjs from 'dayjs';
+import { getRoomHistory } from '@/services/room';
 
 interface RoomChartProps {
   toiletId: number;
@@ -53,31 +54,23 @@ const RoomChart = (props: RoomChartProps) => {
     },
   ];
 
-  const fetchRoomHistoryList = useCallback(async (page: number, pageSize: number) => {
-    setLoading(true);
-    // const res = await getAdminUserInfo({ page, pageSize });
-    // const { total, userList } = res;
-    const total = 1;
-    const roomHistory: RoomHistory[] = [
-      {
-        id: 1,
-        roomId: 1,
-        toiletId: 1,
-        occupied: 1,
-        status: 1,
-        updateTime: '2021-05-01 12:00:00',
-      },
-    ];
-    setPage(page);
-    setPageSize(pageSize);
-    setTotal(total);
-    setRoomHistoryList(roomHistory);
-    setLoading(false);
-  }, []);
+  const fetchRoomHistoryList = useCallback(
+    async (page: number, pageSize: number) => {
+      setLoading(true);
+      const res = await getRoomHistory({ page, pageSize, roomDbId: roomId });
+      const { total, list } = res;
+      setPage(page);
+      setPageSize(pageSize);
+      setTotal(total);
+      setRoomHistoryList(list);
+      setLoading(false);
+    },
+    [toiletId, roomId],
+  );
 
   useEffect(() => {
     fetchRoomHistoryList(page, pageSize);
-  }, []);
+  }, [toiletId, roomId]);
 
   return (
     <div>
