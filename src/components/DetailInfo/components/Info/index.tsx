@@ -12,6 +12,7 @@ import { refreshAir } from '@/services/toilet';
 import { addFeedback } from '@/services/feedback';
 
 import styles from './index.less';
+import dayjs from 'dayjs';
 
 interface ModalContentProps {
   toiletInfo: ToiletInfo;
@@ -129,6 +130,10 @@ const Info = (props: InfoProps) => {
             <span className={!toiletInfo?.airStatus ? styles.disable : ''}>
               {toiletInfo?.airStatus ? toiletInfo.airStatus : '--'}%
             </span>
+          </span>
+          <span style={{ marginLeft: 20 }}>
+            采集时间：
+            <span>{dayjs(toiletInfo?.updateTime).format('MM-DD HH:mm:ss')}</span>
           </span>
           {userInfo.permission && (
             <span style={{ marginLeft: 10 }}>
