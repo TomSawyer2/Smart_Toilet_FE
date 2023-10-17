@@ -49,6 +49,7 @@ const UserBar = () => {
         break;
       case '4':
         message.success('退出登录');
+        localStorage.removeItem('token');
         setUserInfo({} as UserInfo);
         break;
       default:
