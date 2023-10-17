@@ -15,6 +15,7 @@ import {
 import { LineChart as ELineChart, LineSeriesOption } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
+import dayjs from 'dayjs';
 
 echarts.use([
   TitleComponent,
@@ -37,7 +38,7 @@ type EChartsOption = echarts.ComposeOption<
 >;
 
 interface LineChartProps {
-  data: Array<number>;
+  data: { x: string; y: number }[];
   name: string;
   color: string;
 }
@@ -46,9 +47,6 @@ const LineChart = (props: LineChartProps) => {
   const { data, name, color = '#66ccff' } = props;
   const chartRef = useRef<HTMLInputElement>(null);
   const [chart, setChart] = useState<echarts.ECharts>();
-
-  // 生成一个从1到data长度的数组
-  const xAxisData = Array.from(Array(data.length).keys()).map((item) => item + 1);
 
   const option: EChartsOption = {
     tooltip: {
@@ -66,7 +64,7 @@ const LineChart = (props: LineChartProps) => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: xAxisData,
+      data: data.map((item) => dayjs(item.x).format('HH:mm:ss')),
     },
     yAxis: {
       type: 'value',
@@ -75,7 +73,7 @@ const LineChart = (props: LineChartProps) => {
       {
         name,
         type: 'line',
-        data,
+        data: data.map((item) => item.y),
         color,
       },
     ],

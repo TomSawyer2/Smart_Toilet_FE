@@ -1,18 +1,16 @@
-import React, { useCallback, useContext, useState } from 'react';
-import { Button, Input, Modal, Radio, RadioChangeEvent, Space, message } from 'antd';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Button, Input, Modal, Radio, RadioChangeEvent, Space, Spin, message } from 'antd';
 import { FormOutlined, SyncOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
 
-import { RoomInfo, ToiletInfo } from '@/typings';
-import { SmellData } from '@/const/SmellData';
-import { OccupiedData } from '@/const/OccupiedData';
+import { RoomInfo, ToiletHistory, ToiletInfo } from '@/typings';
 import { ToiletContext, UserInfoContext, UserInfoContextProps } from '@/const/context';
 import LineChart from '@/components/LineChart';
 import { RoomStatus } from '@/const/enums';
-import { refreshAir } from '@/services/toilet';
+import { getToiletHistory, refreshAir } from '@/services/toilet';
 import { addFeedback } from '@/services/feedback';
 
 import styles from './index.less';
-import dayjs from 'dayjs';
 
 interface ModalContentProps {
   toiletInfo: ToiletInfo;
@@ -92,6 +90,8 @@ const Info = (props: InfoProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<RoomInfo>({} as RoomInfo);
   const [inputValue, setInputValue] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [toiletHistoryList, setToiletHistoryList] = useState<ToiletHistory[]>([]);
   const { userInfo } = useContext<UserInfoContextProps>(UserInfoContext);
 
   const handleFeedback = async () => {
@@ -113,6 +113,21 @@ const Info = (props: InfoProps) => {
     message.success('换气成功');
   }, [toiletInfo]);
 
+  const fetchToiletHistoryList = useCallback(
+    async (page: number, pageSize: number) => {
+      setLoading(true);
+      const res = await getToiletHistory({ page, pageSize, toiletId: toiletInfo.id });
+      const { list } = res;
+      setToiletHistoryList(list);
+      setLoading(false);
+    },
+    [toiletInfo],
+  );
+
+  useEffect(() => {
+    fetchToiletHistoryList(1, 10);
+  }, [toiletInfo]);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -125,12 +140,12 @@ const Info = (props: InfoProps) => {
               {toiletInfo?.humidity ? toiletInfo.humidity : '--'}%
             </span>
           </span>
-          <span style={{ marginLeft: 20 }}>
+          {/* <span style={{ marginLeft: 20 }}>
             异味浓度：
             <span className={!toiletInfo?.airStatus ? styles.disable : ''}>
               {toiletInfo?.airStatus ? toiletInfo.airStatus : '--'}%
             </span>
-          </span>
+          </span> */}
           <span style={{ marginLeft: 20 }}>
             采集时间：
             <span>{dayjs(toiletInfo?.updateTime).format('MM-DD HH:mm:ss')}</span>
@@ -191,26 +206,46 @@ const Info = (props: InfoProps) => {
           })}
         </div>
         <div className={styles.bodyRight}>
-          <div className={styles.chartItem}>
-            <span>异味浓度曲线图</span>
-            <div className={styles.chart}>
-              <LineChart
-                data={SmellData}
-                name="异味浓度"
-                color="#ff6666"
-              />
-            </div>
-          </div>
-          <div className={styles.chartItem}>
-            <span>坑位占用率曲线图</span>
-            <div className={styles.chart}>
-              <LineChart
-                data={OccupiedData}
-                name="坑位占用率"
-                color="#54c629"
-              />
-            </div>
-          </div>
+          {loading ? (
+            <Spin />
+          ) : (
+            <>
+              {toiletHistoryList.length > 0 && (
+                <div className={styles.chartItem}>
+                  <div className={styles.chart}>
+                    <LineChart
+                      data={toiletHistoryList.map((item) => {
+                        return {
+                          x: item.updateTime,
+                          y: item.humidity,
+                        };
+                      })}
+                      name="湿度变化曲线图"
+                      color="#54c629"
+                    />
+                  </div>
+                  <span className={styles.chartName}>湿度变化曲线图</span>
+                </div>
+              )}
+              {toiletHistoryList.length > 0 && (
+                <div className={styles.chartItem}>
+                  <div className={styles.chart}>
+                    <LineChart
+                      data={toiletHistoryList.map((item) => {
+                        return {
+                          x: item.updateTime,
+                          y: item.temperature,
+                        };
+                      })}
+                      name="温度变化曲线图"
+                      color="#54c629"
+                    />
+                  </div>
+                  <span className={styles.chartName}>温度变化曲线图</span>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
       <Modal
