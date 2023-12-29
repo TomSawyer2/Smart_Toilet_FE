@@ -1,8 +1,8 @@
-# smart_toilet
+# 智慧公厕系统
 
 ## 简介
 
-smart_toilet是一个带PWA的前端项目。
+smart_toilet是智慧公厕系统的前端项目。
 
 ## 运行
 
